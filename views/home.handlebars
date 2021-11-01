@@ -1,5 +1,12 @@
-<div class="container mt-5">
-        <h1 class="mt-5 text-center">Welcome, {{name}}</h1>
-        <p>{{date}}</p>
-        <img src="http://via.placeholder.com/1500x500/187895?text=image" alt="">
-      </div>
+<style>
+    button{
+        background-color:#2f1515;
+        color: white;
+        font-weight: bold;
+        padding: .5rem;
+        font-weight: bold;
+    }
+</style>
+{{#each posts}}
+{{>fullBlogPostCard}}
+{{/each}}

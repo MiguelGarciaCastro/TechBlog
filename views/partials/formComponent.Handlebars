@@ -1,0 +1,36 @@
+<style>
+    form {
+        border: black .25rem solid;
+        background-color: #321414
+    }
+    button{
+        background-color: rgb(198, 228, 201);
+        font-weight: bolder;
+        color: #321414;
+       
+    }
+    .container {
+        width: 50vw;
+    }
+    .form-label {
+        font-size: 1.5rem;
+        font-weight: bolder;
+    }
+</style>
+
+<form class="container mt-5">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">User Name</label>
+    <input type="UserName" class="form-control">
+  </div>
+  <div class="mb-1">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input class="form-control">
+  </div>
+  <button type="submit">Submit</button>
+    {{#if signingIn}}
+  <a href="/newUser"><h6 class="mt-1">Dont Have an Accout? Click here to sign up!!</h6></a>
+    {{else}}
+    <a href="/login"><h6 class="mt-1">Login By Clicking Here!</h6></a>
+    {{/if}}
+</form>

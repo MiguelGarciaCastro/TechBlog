@@ -1,0 +1,15 @@
+<style>
+    button{
+        background-color:#2f1515;
+        color: white;
+        font-weight: bold;
+        padding: .5rem;
+        font-weight: bold;
+    }
+</style>
+{{#each posts}}
+{{>minimizedBlogCard}}
+{{/each}}
+<div class="container d-flex justify-content-center">
+<button>+ New Post</button>
+</div>

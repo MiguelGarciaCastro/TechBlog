@@ -1,32 +1,30 @@
 const sequelize = require('../config/connection')
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 
 
-class blogPosts extends Model{};
+class blogPost extends Model{};
 
- blogPosts.init(
+ blogPost.init(
      {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: true,
-            primaryKey: true,
-            autoIncrement: true,
+            primaryKey:true,
+            autoIncrement: true
         },
         title: {
-            tupe:DataTypes.STRING,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         body: {
             type: DataTypes.STRING,
             allowNull: false
+            
         },
-        postCreator: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'User',
-                key: 'id'
-            }
+        dateCreated: {
+            type: DataTypes.DATEONLY,
+            defaultValue: Sequelize.NOW 
         },},
         {
 
@@ -34,10 +32,10 @@ class blogPosts extends Model{};
             timestamps: false,
             freezeTableName: true,
             underscored: true,
-            modelName: 'Blogposts'
+            modelName: 'blogPost'
             
         },
      
  )
 
- module.exports = blogPosts;
+ module.exports = blogPost;
