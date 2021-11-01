@@ -2,7 +2,7 @@ const { User, blogPost } = require('../models');
 
 const router = require('express').Router();
 
-// const blogPosts = require('../models/blogPosts')
+
 
 // html routes
 router.get('/', async (req, res) =>{
@@ -23,69 +23,101 @@ router.get('/', async (req, res) =>{
 
 
 //This route gets the dashboard page
-router.get('/dashboard', async (req, res) => {
-    try {
-       
-    }catch(e){
-      res.json(e)
-    }
-})
-
-
-router.get('/newUser', (req, res) => res.render('signUpPage', {
-  secondarytitle: 'The Tech Blog',
-  signingIn: false,
-}))
-
-//This route gets the logout page
-router.get('/logout', (req, res) => res.render('home', {
-  secondarytitle: 'The Tech Blog'
+router.get('/dashboard', withAuth, (req, res) => {
+  
+  Post.findAll({
+    where: {
+      user_id: req.session.user_id
+    },
+    attributes: [
+      'id',
+      'post_text',
+      'title',
+      'created_at',
+    ],
+    include: [
+      {
+        model: Comment,
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+        include: {
+          model: User,
+          attributes: ['username']
+        }
+      },
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
   })
+    .then(dbPostData => {
+      const posts = dbPostData.map(post => post.get({ plain: true }));
+      res.render('dashboard', { posts, loggedIn: true });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
 
-)
-//TODO: When the user logs out they are redirected to the home page
+
+router.get('/login', async (req, res) => {
+  try {
+      // render 'login' view
+      res.render('login');
 
 
-// This route gets the login page
-router.get('/login', (req, res) => res.render('login', {
-    secondarytitle: 'The Tech Blog',
-    signingIn: true}
-))
-//TODO: Once the user logins in they need to be redirected to the dashboard
+  } catch (err) {
+      res.status(500).json(err);
+  }
+});
 
-//TODO: On the login page if the user clicks on the Sign Up Instead then we redirect them to the Sign Up box and give them the option to log in instead in place of where the sign up instead click link is. 
 
-//TODO: We need to create a route to generate to get the form data and inject our sign up partials
+router.post('/login', async (req, res) => {
+  try {
+    // Find the user who matches the posted e-mail address
+    const userData = await User.findOne({ where: { email: req.body.email } });
 
-//TODO: Create CRUD Methods To add/delete and update posts
+    if (!userData) {
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
+      return;
+    }
 
-// router.get('/add-post', (req, res) => {
-//   res.render('add-post')
-// })
+    // Verify the posted password with the password store in the database
+    const validPassword = await userData.checkPassword(req.body.password);
 
-// router.get('/blog', (req, res) => {
-//   res.render('blog', {
-//     post: blogPosts.map(post => {
+    if (!validPassword) {
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
+      return;
+    }
+
+    // Create session variables based on the logged in user
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.logged_in = true;
       
-//       const slug = slugify(post.name, { lower: true })
-//       post.slug = slug
-//       return post
-//     })
-//   })
-// })
+      res.json({ user: userData, message: 'You are now logged in!' });
+    });
 
-// router.get('/blog/:slug', (req, res) => {
-//   const postObj = blogPosts
-//     .find(post => req.params.slug === post.slug)
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
-//   res.render('post', postObj)
-// })
+router.post('/logout', (req, res) => {
+  if (req.session.logged_in) {
+    // Remove the session variables
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
+});
 
-// router.post('/api/blogpost', (req, res) => {
-//   const body = req.body
-//   body.date = new Date()
-//   blogPosts.push(body)
-//   res.status(200).send('Post added succesfully!')
-// })
 
 module.exports = router

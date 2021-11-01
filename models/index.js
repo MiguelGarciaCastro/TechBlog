@@ -9,7 +9,8 @@ blogPost.belongsTo(User, {
 });
 
 User.hasMany(blogPost, {
-    foreignKey: 'post_creator'
+    foreignKey: 'post_creator',
+    onDelete: "CASCADE"
 })
 
 module.exports = {blogPost, User}
