@@ -1,7 +1,7 @@
 const { User, blogPost } = require('../models');
 
 const router = require('express').Router();
-
+const withAuth = require('../middleware/auth');
 
 
 // html routes
