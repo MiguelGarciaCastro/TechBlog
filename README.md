@@ -87,3 +87,8 @@ DB_NAME='tech_blog'
 DB_USER='root'
 
 DB_PW='XXX'
+
+
+HEROKU DEPLOYMENT 
+
+https://firsttechblog.herokuapp.com/
