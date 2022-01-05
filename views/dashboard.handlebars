@@ -1,15 +1,13 @@
-<style>
-    button{
-        background-color:#2f1515;
-        color: white;
-        font-weight: bold;
-        padding: .5rem;
-        font-weight: bold;
-    }
-</style>
-{{#each posts}}
-{{>minimizedBlogCard}}
-{{/each}}
-<div class="container d-flex justify-content-center">
-<button>+ New Post</button>
-</div>
+{{#if posts.length}}
+<section>
+  <h2>Your Posts</h2>
+    {{#each posts as |post|}}
+      {{> dashboard-postinfo post}}
+    {{/each}}
+
+</section>
+{{/if}}
+
+<button type="submit" class="btn"><a class="link" href="/dashboard/new">+ New Post</a></button>
+
+<script src="/javascript/add-post.js"></script>
