@@ -3,6 +3,11 @@ CODE
 
 https://github.com/MiguelGarciaCastro/TechBlog.git
 
+
+HEROKU DEPLOYMENT 
+
+https://firsttechblog.herokuapp.com/
+
 Tech blog hw
 
 # TechBlog
@@ -113,10 +118,6 @@ DB_USER='root'
 
 DB_PW='XXX'
 
-
-HEROKU DEPLOYMENT 
-
-https://firsttechblog.herokuapp.com/
 
                                                                   
 <img width="1792" alt="Screen Shot 2022-01-05 at 6 07 52 PM" src="https://user-images.githubusercontent.com/87445858/148302639-7f2371cd-dd11-48cc-b863-17ada7b724cf.png">
