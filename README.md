@@ -8,6 +8,27 @@ Tech blog hw
 # TechBlog
 Tech blog hw
 
+Description
+
+A CMS-style blog site similar to a Wordpress site, where developers can publish their blog posts and comment on other developers’ posts as well.
+
+Technologies
+
+JS
+
+Node.js
+
+MongoDB
+
+Handlebars
+
+Model-View-Controller
+
+dotenv
+
+MySQL
+
+
 USER STORY
 
 AS A developer who writes about tech
